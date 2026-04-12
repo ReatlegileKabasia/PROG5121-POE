@@ -1,10 +1,21 @@
 package org.example;
-
+import java.util.Scanner;
 public class Login {
-    // Fields to store user information [cite: 108, 126]
+
     private String username;
     private String password;
-    private String firstName;
-    private String lastName;
-    private String cellNumber;
+    private String Name;
+    private String surName;
+    private String phoneNumber;
+
 }
+
+public boolean userNameCheck (String username) {
+    if (username.contains("_")) {
+        if (username.length() <= 5) {
+            return true;
+        }
+    }
+    return false;
+}
+
