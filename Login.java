@@ -55,15 +55,15 @@ public boolean passwordComplexityCheck(String password) {
 
 }
 
-public boolean checkPhone(String cell) {
-    if (cell.startsWith("+27") && cell.length() == 12) {
+public boolean checkPhone(String phoneNumber) {
+    if (phoneNumber.startsWith("+27") && phoneNumber.length() == 12) {
         return true;
     }
     return false;
 }
 
 
-public String registerUser(String user, String pass, String first, String last, String phone) {
+public String registerUser(String user, String pass, String phone) {
     if (!userNameCheck(user)) {
         return "Username is not correctly formatted; please ensure that your username contains an underscore and is no more than five characters in length.";
     }
