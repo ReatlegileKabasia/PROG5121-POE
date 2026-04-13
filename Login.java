@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Scanner;
+
 public class Login {
 
     private String username;
@@ -65,13 +67,13 @@ public boolean checkPhone(String phoneNumber) {
 
 public String registerUser(String user, String pass, String phone) {
     if (!userNameCheck(user)) {
-        return "Username is not correctly formatted; please ensure that your username contains an underscore and is no more than five characters in length.";
+        System.out.println("Username is not correctly formatted; please ensure that your username contains an underscore and is no more than five characters in length.");
     }
     if (!passwordComplexityCheck(pass)) {
-        return "Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a special character.";
+        System.out.println("Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a special character.");
     }
-    if (!checkPhone(phone)) {
-        return "Cell phone number incorrectly formatted or does not contain international code.";
+        if (!checkPhone(phone)) {
+        System.out.println("Cell phone number incorrectly formatted or does not contain international code.");
     }
 
 
@@ -82,4 +84,67 @@ public String registerUser(String user, String pass, String phone) {
     return "Username, Password and Cell phone number successfully captured.";
 }
 
+
+public boolean loginUser(String user, String pass) {
+    if (user.equals(this.username) && pass.equals(this.password)) {
+        return true;
+    }
+    return false;
+}
+
+public String returnLoginStatus(boolean success) {
+    if (success) {
+        System.out.println("Welcome " + username);
+    }
+    return "Username or password incorrect, please try again.";
+}
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Login auth = new Login();
+
+        // We use a boolean to track if registration is finished
+        boolean isRegistered = false;
+
+        System.out.println("-Register Here-");
+
+        while (!isRegistered) {
+            System.out.print("First Name: ");
+            String f = input.nextLine();
+
+            System.out.print("Last Name: ");
+            String l = input.nextLine();
+
+            System.out.print("Username: ");
+            String u = input.nextLine();
+
+            System.out.print("Password: ");
+            String p = input.nextLine();
+
+            System.out.print("Phone: ");
+
+            String c = input.nextLine();
+
+            String result = auth.registerUser(u, p, c);
+            System.out.println(" " + result);
+
+
+            if (result.equals("Username, Password and Cell phone number successfully captured.")) {
+                isRegistered = true;
+            } else {
+                System.out.println("Please try again with correct details.\n");
+            }
+        }
+
+
+        System.out.println("- Login -");
+        System.out.print("Username: "); String loginU = input.nextLine();
+        System.out.print("Password: "); String loginP = input.nextLine();
+
+        if (auth.loginUser(loginU, loginP)) {
+            System.out.println(auth.returnLoginStatus(true));
+        } else {
+            System.out.println(auth.returnLoginStatus(false));
+        }
+    }
 }
