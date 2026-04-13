@@ -6,7 +6,7 @@ public class Login {
 
     private String username;
     private String password;
-    private String firstName;
+    private String Name;
     private String surName;
     private String phoneNumber;
 
@@ -14,9 +14,7 @@ public class Login {
 
     public boolean userNameCheck (String username) {
         if (username.contains("_")) {
-            if (username.length() <= 5) {
-                return true;
-            }
+            return username.length() <= 5;
         }
         return false;
     }
@@ -39,7 +37,7 @@ public class Login {
             }
         }
 
-        if (hasANumber == false) {
+        if (!hasANumber) {
             return false;   }
 
         boolean hasSpecialChar = false;
@@ -48,47 +46,40 @@ public class Login {
             if (!Character.isLetterOrDigit(c)) {
                 hasSpecialChar = true;  }
         }
-        if (hasSpecialChar == false) {
-            return false;   }
-
-
-        return true;
+        return hasSpecialChar;
 
 
     }
 
     public boolean checkPhone(String phoneNumber) {
-        // keeping it simple for the check
+
         String clean = phoneNumber.replace(" ", "");
-        if (clean.startsWith("+27") && clean.length() == 12) {
-            return true;
-        }
-        return false;
+        return clean.startsWith("+27") && clean.length() == 12;
     }
 
 
-    public String registerUser(String user, String pass, String f, String l, String phone) {
+    public String registerUser(String user, String pass, String name, String surname, String phone) {
 
-        boolean canRegister = true;
+        boolean allowedRegister = true;
 
         if (!userNameCheck(user)) {
             System.out.println("Username is not correctly formatted; please ensure that your username contains an underscore and is no more than five characters in length.");
-            canRegister = false;
+            allowedRegister = false;
         }
         if (!passwordComplexityCheck(pass)) {
             System.out.println("Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a special character.");
-            canRegister = false;
+            allowedRegister = false;
         }
         if (!checkPhone(phone)) {
             System.out.println("Cell phone number incorrectly formatted or does not contain international code.");
-            canRegister = false;
+            allowedRegister = false;
         }
 
-        if (canRegister) {
+        if (allowedRegister) {
             this.username = user;
             this.password = pass;
-            this.firstName = f;
-            this.surName = l;
+            this.Name = name;
+            this.surName = surname;
             this.phoneNumber = phone;
 
             return "Username, Password and Cell phone number successfully captured.";
@@ -99,20 +90,17 @@ public class Login {
 
 
     public boolean loginUser(String user, String pass) {
-        if (user.equals(this.username) && pass.equals(this.password)) {
-            return true;
-        }
-        return false;
+        return user.equals(this.username) && pass.equals(this.password);
     }
 
     public String returnLoginStatus(boolean success) {
         if (success) {
-            return "Welcome " + firstName + ", " + surName + " ";
+            return "Welcome in " + Name + ", " + surName + " ";
         }
         return "Username or password incorrect, please try again.";
     }
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         Login auth = new Login();
 
@@ -121,11 +109,12 @@ public class Login {
         System.out.println("-Register Here-");
 
         while (!isRegistered) {
-            System.out.print("First Name: ");
-            String f = input.nextLine();
+            System.out.print("Name: ");
+            String n = input.nextLine();
 
-            System.out.print("Last Name: ");
-            String l = input.nextLine();
+            System.out.print("Surname: ");
+            String s = input.nextLine();
+
 
             System.out.print("Username: ");
             String u = input.nextLine();
@@ -133,10 +122,11 @@ public class Login {
             System.out.print("Password: ");
             String p = input.nextLine();
 
-            System.out.print("Phone: ");
+            System.out.print("Phone Number: ");
+
             String c = input.nextLine();
 
-            String result = auth.registerUser(u, p, f, l, c);
+            String result = auth.registerUser(u, p, n, s, c);
             System.out.println(" " + result);
 
 
@@ -148,7 +138,7 @@ public class Login {
         }
 
 
-        System.out.println("\n- Login -");
+        System.out.println("- Login -");
         System.out.print("Username: ");
         String loginU = input.nextLine();
         System.out.print("Password: ");
