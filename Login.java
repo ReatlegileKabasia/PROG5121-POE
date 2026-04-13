@@ -103,11 +103,12 @@ public String returnLoginStatus(boolean success) {
         Scanner input = new Scanner(System.in);
         Login auth = new Login();
 
-        // We use a boolean to track if registration is finished
+
         boolean isRegistered = false;
 
         System.out.println("-Register Here-");
 
+        
         while (!isRegistered) {
             System.out.print("First Name: ");
             String f = input.nextLine();
