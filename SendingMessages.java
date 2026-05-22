@@ -1,5 +1,10 @@
 package org.example;
 
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Random;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -97,7 +102,40 @@ public class SendingMessages {
         return sb.toString();
     }
 
-    public void storeMessage() {
+    public void storeMessage(String messageID, String messageHash, String recipient, String messageText) {
+        try {
+            java.io.File file = new java.io.File("stored_messages.json");
+            StringBuilder jsonBuilder = new StringBuilder();
+
+            if (file.exists() && file.length() > 0) {
+
+                String existingContent = new String(java.nio.file.Files.readAllBytes(file.toPath())).trim();
+
+
+                if (existingContent.endsWith("]")) {
+                    jsonBuilder.append(existingContent.substring(0, existingContent.length() - 1));
+                    jsonBuilder.append(",\n");
+
+                }
+
+            } else {
+                jsonBuilder.append("[\n");
+            }
+
+
+            jsonBuilder.append("  {\n")
+                    .append("    \"messageID\": \"").append(messageID).append("\",\n")
+                    .append("    \"messageHash\": \"").append(messageHash).append("\",\n")
+                    .append("    \"recipient\": \"").append(recipient).append("\",\n")
+                    .append("    \"message\": \"").append(messageText.replace("\"", "\\\"")).append("\"\n")
+                    .append("  }");
+
+            jsonBuilder.append("\n]");
+
+            java.nio.file.Files.write(file.toPath(), jsonBuilder.toString().getBytes());
+        } catch (java.io.IOException e) {
+
+        }
     }
 }
 
